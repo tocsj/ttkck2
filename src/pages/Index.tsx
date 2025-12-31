@@ -1,14 +1,51 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PasswordModal } from '@/components/PasswordModal';
+import { useAuth } from '@/hooks/useAuth';
 
 const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+  const navigate = useNavigate();
+  const { mode, isLoading, login } = useAuth();
+
+  // Auto-redirect if already authenticated
+  useEffect(() => {
+    if (!isLoading && mode) {
+      if (mode === 'admin') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/viewer', { replace: true });
+      }
+    }
+  }, [mode, isLoading, navigate]);
+
+  const handlePasswordSubmit = (password: string) => {
+    const result = login(password);
+    
+    if (result.success) {
+      if (result.mode === 'admin') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/viewer', { replace: true });
+      }
+    }
+    
+    return result;
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center gradient-romantic">
+        <div className="animate-pulse text-primary">加载中...</div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  // Show password modal if not authenticated
+  if (!mode) {
+    return <PasswordModal onSubmit={handlePasswordSubmit} />;
+  }
+
+  return null;
 };
 
 export default Index;
