@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { UserMode } from '@/types/slides';
 
-const VIEWER_PASSWORD = 'hrtsxn521';
+const VIEWER_PASSWORD = '123456';
 const ADMIN_PASSWORD = 'tkck6688';
 const AUTH_KEY = 'romantic-auth-mode';
 
