@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
 import { CarouselViewer } from '@/components/CarouselViewer';
 import { MusicPlayer } from '@/components/MusicPlayer';
-import { Button } from '@/components/ui/button';
 import { useSlides } from '@/hooks/useSlides';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function Viewer() {
   const navigate = useNavigate();
-  const { mode, isLoading: authLoading, logout } = useAuth();
+  const { mode, isLoading: authLoading } = useAuth();
   const { slides, slidesData, isLoading: slidesLoading } = useSlides();
 
   // Protect route
@@ -18,11 +16,6 @@ export default function Viewer() {
       navigate('/', { replace: true });
     }
   }, [mode, authLoading, navigate]);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/', { replace: true });
-  };
 
   if (authLoading || slidesLoading) {
     return (
@@ -34,20 +27,8 @@ export default function Viewer() {
 
   return (
     <div className="fixed inset-0 overflow-hidden">
-      {/* Top bar with controls */}
-      <div className="fixed top-4 left-4 right-4 z-50 flex justify-between items-center">
-        {/* Logout button */}
-        <Button 
-          variant="icon" 
-          size="icon" 
-          onClick={handleLogout}
-          className="rounded-full"
-          title="退出登录"
-        >
-          <LogOut className="w-5 h-5" />
-        </Button>
-
-        {/* Music player */}
+      {/* Music player in top right */}
+      <div className="fixed top-4 right-4 z-50">
         <MusicPlayer />
       </div>
 

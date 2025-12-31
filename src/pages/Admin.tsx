@@ -16,7 +16,6 @@ export default function Admin() {
     deleteSlide,
     reorderSlides,
     updateTitle,
-    updateBGM,
     exportData,
     importData,
     resetToDefault
@@ -55,13 +54,11 @@ export default function Admin() {
       slides={slides}
       title={slidesData.title}
       subtitle={slidesData.subtitle}
-      bgmConfig={slidesData.bgm}
       onUpdateSlide={updateSlide}
       onAddSlide={addSlide}
       onDeleteSlide={deleteSlide}
       onReorderSlides={reorderSlides}
       onUpdateTitle={updateTitle}
-      onUpdateBGM={updateBGM}
       onExport={exportData}
       onImport={importData}
       onReset={resetToDefault}

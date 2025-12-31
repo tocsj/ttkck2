@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { SlidesData, Slide, BGMConfig } from '@/types/slides';
+import { SlidesData, Slide } from '@/types/slides';
 import { defaultSlidesData } from '@/data/defaultSlides';
 
 const STORAGE_KEY = 'romantic-slides-data';
@@ -89,14 +89,6 @@ export function useSlides() {
     });
   }, [saveData]);
 
-  const updateBGM = useCallback((bgm: BGMConfig) => {
-    setSlidesData(prev => {
-      const newData = { ...prev, bgm };
-      saveData(newData);
-      return newData;
-    });
-  }, [saveData]);
-
   const exportData = useCallback(() => {
     const dataStr = JSON.stringify(slidesData, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -122,8 +114,6 @@ export function useSlides() {
   }, [saveData]);
 
   const resetToDefault = useCallback(() => {
-    // Also clear BGM
-    localStorage.removeItem('romantic-bgm-blob');
     saveData(defaultSlidesData);
   }, [saveData]);
 
@@ -136,7 +126,6 @@ export function useSlides() {
     deleteSlide,
     reorderSlides,
     updateTitle,
-    updateBGM,
     exportData,
     importData,
     resetToDefault
